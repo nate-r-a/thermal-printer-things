@@ -90,14 +90,15 @@ ordered_schedule = collections.OrderedDict(sorted(combined_schedule.items()))
 # print(ordered_schedule)
 # print("***********************")
 game_number = 1
+console_game_number = 1
 for game in ordered_schedule:
   osg = ordered_schedule[game]
   # Consoling
   print("Game #" + str(game_number))
-  game_number += 1
+  console_game_number += 1
   print(osg["location"])
   print(osg["team"])
-  print(datetime.strftime(game, "%A, %B %d").lstrip("0"))#.replace("0", ""))
+  print(datetime.strftime(game, "%A, %B %d").lstrip("0")).replace("0", "")
   print(datetime.strftime(game, "%-I:%Mpm"))
   loc = "vs " if osg["home_team"] in teams else "@ "
   opp = osg["away_team"] if osg["home_team"] in teams else osg["home_team"]
