@@ -6,15 +6,22 @@ import pickle
 import textwrap
 import re
 import cStringIO
+import time
 from PIL import Image
 
 try:
   from Adafruit_Thermal import *
   printer = Adafruit_Thermal("/dev/ttyUSB0", 19200, timeout = 5)
+  printer.wake()
   printer.setDefault()
-  printer.println("=====================")
+  # printer.println("=====================")
+  time.sleep(1)
   printer.println("Server started")
-  printer.println("=====================")
+  time.sleep(1)
+  printer.println("test")
+  time.sleep(1)
+  printer.println("test")
+  # printer.println("=====================")
   # Font b?
   # printer.writeBytes(0x1B, 0x21, 0x1)
 
@@ -39,17 +46,23 @@ def printpicture():
   image_data = re.sub('^data:image/.+;base64,', '', r['data-url']).decode('base64')
   image = Image.open(cStringIO.StringIO(image_data))
   image.save("test_drawing.png")
-  image = image.convert("L")
-  image.save("test_drawing_gray.png")
-  # image = image.convert("1")
-  # image.save("test_drawing_1bit.bmp")
+  # image = image.convert("L")
+  # image.save("test_drawing_gray.png")
+  image = image.convert("1")
+  image.save("test_drawing_1bit.bmp")
 
   try:
+    printer.boldOn()
+    printer.println("Incoming message")
+    printer.println("Incoming message...")
+    printer.println("Incoming message")
     basewidth = 384
     wpercent = (basewidth/float(image.size[0]))
     hsize = int((float(image.size[1])*float(wpercent)))
     image = image.resize((basewidth,hsize), Image.ANTIALIAS)
-    printer.printImage(image, False)
+    image.save("test_drawing_1bit.bmp")
+    printer.printImage(image, True)
+    printer.feed(3)
   except Exception as e:
     print(e)
     pass  
