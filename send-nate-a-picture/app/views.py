@@ -52,10 +52,9 @@ def printpicture():
   image.save("test_drawing_1bit.bmp")
 
   try:
-    printer.boldOn()
-    printer.println("Incoming message")
-    printer.println("Incoming message...")
-    printer.println("Incoming message")
+    printer.writeBytes(0x1B, 0x21, 0x1)
+    # printer.boldOn()
+    printer.println("Incoming message from someone:")
     basewidth = 384
     wpercent = (basewidth/float(image.size[0]))
     hsize = int((float(image.size[1])*float(wpercent)))
